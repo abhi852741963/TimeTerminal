@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-Time Clock</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #00ff00;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .terminal {
+            border: 2px solid #00ff00;
+            border-radius: 5px;
+            width: 300px;
+            padding: 15px;
+            background-color: #000;
+        }
+
+        .header {
+            display: flex;
+            justify-content: flex-start;
+            margin-bottom: 10px;
+        }
+
+        .dot {
+            height: 10px;
+            width: 10px;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+
+        .red {
+            background-color: #ff605c;
+        }
+
+        .yellow {
+            background-color: #ffbd44;
+        }
+
+        .green {
+            background-color: #00ca4e;
+        }
+
+        .terminal-body {
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <div class="terminal">
+        <div class="header">
+            <span class="dot red"></span>
+            <span class="dot yellow"></span>
+            <span class="dot green"></span>
+        </div>
+        <div class="terminal-body">
+            <span id="clock"></span>
+        </div>
+    </div>
+    <script>
+        function updateClock() {
+            const clockElement = document.getElementById('clock');
+            const now = new Date();
+
+            // Convert current time to India Standard Time (IST)
+            const indiaOffset = 5.5 * 60; // IST is UTC+5:30
+            const utcTime = now.getTime() + (now.getTimezoneOffset() * 60000);
+            const indiaTime = new Date(utcTime + (indiaOffset * 60000));
+
+            const hours = indiaTime.getHours().toString().padStart(2, '0');
+            const minutes = indiaTime.getMinutes().toString().padStart(2, '0');
+            const seconds = indiaTime.getSeconds().toString().padStart(2, '0');
+
+            clockElement.textContent = `${hours}:${minutes}:${seconds}`;
+        }
+
+        // Update the clock every second
+        setInterval(updateClock, 1000);
+        updateClock(); // Initial call to display clock immediately
+    </script>
+</body>
+</html>
